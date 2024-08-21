@@ -5,13 +5,14 @@ return {
   config = function()
     require("catppuccin").setup({
       transparent_background = true,
-      terminal_colors = true,
       styles = {
         keywords = { "bold" },
         functions = { "italic" },
+        comments = { "italic" },
+        conditionals = { "italic" },
       },
     })
 
-    vim.cmd.colorscheme("catppuccin-macchiato")
+    vim.cmd.colorscheme("catppuccin-mocha")
   end,
 }
