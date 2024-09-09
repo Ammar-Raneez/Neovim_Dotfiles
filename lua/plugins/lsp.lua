@@ -1,5 +1,23 @@
 return {
 	{
+		"WhoIsSethDaniel/mason-tool-installer.nvim",
+		config = function()
+			require("mason-tool-installer").setup({
+				ensure_installed = {
+					"black",
+					"debugpy",
+					"flake8",
+					"isort",
+					"mypy",
+					"pylint",
+					"eslint",
+				},
+			})
+
+			vim.api.nvim_command("MasonToolsInstall")
+		end,
+	},
+	{
 		"williamboman/mason.nvim",
 		config = function()
 			require("mason").setup()
@@ -12,12 +30,15 @@ return {
 				ensure_installed = {
 					"lua_ls",
 					"tsserver",
+					"pyright",
 					"angularls",
 					"cssls",
-					"eslint",
 					"html",
+					"jsonls",
+					"yamlls",
 					"prismals",
 					"tailwindcss",
+					"bashls",
 				},
 			})
 		end,
@@ -36,10 +57,29 @@ return {
 			lspconfig.html.setup({ capabilities = capabilities })
 			lspconfig.prismals.setup({ capabilities = capabilities })
 			lspconfig.tailwindcss.setup({ capabilities = capabilities })
+			lspconfig.pyright.setup({ capabilities = capabilities })
 
-			vim.keymap.set("n", "K", vim.lsp.buf.hover, {})
-			vim.keymap.set("n", "gd", vim.lsp.buf.definition, {})
-			vim.keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, {})
+			-- Hover information
+			vim.keymap.set("n", "<leader>gh", vim.lsp.buf.hover, {})
+
+			-- Go to definition
+			vim.keymap.set("n", "<leader>gd", vim.lsp.buf.definition, {})
+
+			-- Go to declaration
+			vim.keymap.set("n", "<leader>gD", vim.lsp.buf.declaration, {})
+
+			-- Autocomplete code action
+			vim.keymap.set({ "n", "v" }, "<leader>ga", vim.lsp.buf.code_action, {})
+
+			vim.keymap.set({ "n", "i" }, "<C-Space>", "<cmd>vim.lsp.buf.completion()<CR>")
+
+			-- Set popup to rounded borders
+			local open_floating_preview = vim.lsp.util.open_floating_preview
+			function vim.lsp.util.open_floating_preview(contents, syntax, opts, ...)
+				opts = opts or {}
+				opts.border = opts.border or "rounded"
+				return open_floating_preview(contents, syntax, opts, ...)
+			end
 		end,
 	},
 }
