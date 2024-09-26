@@ -10,7 +10,7 @@ return {
 					"isort",
 					"mypy",
 					"pylint",
-					"eslint",
+					"eslint_d",
 				},
 			})
 
@@ -58,6 +58,9 @@ return {
 			lspconfig.prismals.setup({ capabilities = capabilities })
 			lspconfig.tailwindcss.setup({ capabilities = capabilities })
 			lspconfig.pyright.setup({ capabilities = capabilities })
+			lspconfig.jsonls.setup({ capabilities = capabilities })
+			lspconfig.yamlls.setup({ capabilities = capabilities })
+			lspconfig.bashls.setup({ capabilities = capabilities })
 
 			-- Hover information
 			vim.keymap.set("n", "<leader>gh", vim.lsp.buf.hover, {})
