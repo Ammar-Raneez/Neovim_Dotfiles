@@ -50,7 +50,14 @@ return {
 			local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
 			lspconfig.lua_ls.setup({ capabilities = capabilities })
-			lspconfig.tsserver.setup({ capabilities = capabilities })
+			lspconfig.tsserver.setup({
+				capabilities = capabilities,
+				on_attach = function(client)
+					-- Disable tsserver's formatting in favor of null-ls
+					client.resolved_capabilities.document_formatting = false
+				end,
+			})
+
 			lspconfig.angularls.setup({ capabilities = capabilities })
 			lspconfig.cssls.setup({ capabilities = capabilities })
 			lspconfig.eslint.setup({ capabilities = capabilities })
