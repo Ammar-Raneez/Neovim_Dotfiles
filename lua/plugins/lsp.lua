@@ -54,8 +54,28 @@ return {
 				capabilities = capabilities,
 				on_attach = function(client)
 					-- Disable tsserver's formatting in favor of null-ls
-					client.resolved_capabilities.document_formatting = false
+					client.server_capabilities.document_formatting = false
 				end,
+				settings = {
+					javascript = {
+						format = {
+							enable = false, -- Disable in-built tsserver formatting
+						},
+					},
+					typescript = {
+						format = {
+							enable = false, -- Disable in-built tsserver formatting
+						},
+					},
+				},
+			})
+
+			-- Null-ls Setup (for formatting)
+			require("null-ls").setup({
+				sources = {
+					require("null-ls").builtins.formatting.prettierd,
+					require("null-ls").builtins.formatting.black,
+				},
 			})
 
 			lspconfig.angularls.setup({ capabilities = capabilities })
