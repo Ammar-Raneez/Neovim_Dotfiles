@@ -39,6 +39,7 @@ return {
 					"prismals",
 					"tailwindcss",
 					"bashls",
+          "gopls",
 				},
 			})
 		end,
@@ -68,6 +69,7 @@ return {
 			lspconfig.jsonls.setup({ capabilities = capabilities })
 			lspconfig.yamlls.setup({ capabilities = capabilities })
 			lspconfig.bashls.setup({ capabilities = capabilities })
+      lspconfig.gopls.setup({ capabilities = capabilities })
 
 			-- Hover information
 			vim.keymap.set("n", "<leader>gh", vim.lsp.buf.hover, {})
