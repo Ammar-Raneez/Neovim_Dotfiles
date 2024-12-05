@@ -7,7 +7,8 @@ return {
   },
   config = function()
     require("nvim-tree").setup({
-      update_focused_file = { enable = true }
+      update_focused_file = { enable = true },
+      view = { adaptive_size = true }
     })
     local tree_api = require("nvim-tree.api")
     vim.keymap.set("n", "<C-b>", tree_api.tree.toggle, {})
