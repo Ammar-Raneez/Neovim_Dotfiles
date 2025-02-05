@@ -10,7 +10,7 @@ return {
 					"isort",
 					"mypy",
 					"pylint",
-					"eslint_d",
+					-- "eslint_d",
 				},
 			})
 
@@ -39,7 +39,7 @@ return {
 					"prismals",
 					"tailwindcss",
 					"bashls",
-          "gopls",
+					-- "gopls",
 				},
 			})
 		end,
@@ -81,15 +81,26 @@ return {
 
 			lspconfig.angularls.setup({ capabilities = capabilities })
 			lspconfig.cssls.setup({ capabilities = capabilities })
-			lspconfig.eslint.setup({ capabilities = capabilities })
+			-- lspconfig.eslint.setup({ capabilities = capabilities })
 			lspconfig.html.setup({ capabilities = capabilities })
 			lspconfig.prismals.setup({ capabilities = capabilities })
 			lspconfig.tailwindcss.setup({ capabilities = capabilities })
-			lspconfig.pyright.setup({ capabilities = capabilities })
+			lspconfig.pyright.setup({
+				capabilities = capabilities,
+				-- before_init = function(params)
+				-- 	local venv = os.getenv("VIRTUAL_ENV") -- Get the venv path from the environment
+				-- 	if venv then
+				-- 		params.settings.python.pythonPath = venv .. "/bin/python"
+				-- 	else
+				-- 		params.settings.python.pythonPath = vim.fn.exepath("python3") -- Fallback to system Python
+				-- 	end
+				-- end,
+			})
+
 			lspconfig.jsonls.setup({ capabilities = capabilities })
 			lspconfig.yamlls.setup({ capabilities = capabilities })
 			lspconfig.bashls.setup({ capabilities = capabilities })
-      lspconfig.gopls.setup({ capabilities = capabilities })
+			lspconfig.gopls.setup({ capabilities = capabilities })
 
 			-- Hover information
 			vim.keymap.set("n", "<leader>gh", vim.lsp.buf.hover, {})
