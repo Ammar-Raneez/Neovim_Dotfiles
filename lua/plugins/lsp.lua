@@ -10,7 +10,7 @@ return {
 					"isort",
 					"mypy",
 					"pylint",
-					"eslint_d",
+					-- "eslint_d",
 				},
 			})
 
@@ -81,7 +81,7 @@ return {
 
 			lspconfig.angularls.setup({ capabilities = capabilities })
 			lspconfig.cssls.setup({ capabilities = capabilities })
-			lspconfig.eslint.setup({ capabilities = capabilities })
+			-- lspconfig.eslint.setup({ capabilities = capabilities })
 			lspconfig.html.setup({ capabilities = capabilities })
 			lspconfig.prismals.setup({ capabilities = capabilities })
 			lspconfig.tailwindcss.setup({ capabilities = capabilities })
