@@ -13,7 +13,6 @@ return {
 					-- "eslint_d",
 				},
 			})
-
 			vim.api.nvim_command("MasonToolsInstall")
 		end,
 	},
@@ -29,7 +28,7 @@ return {
 			require("mason-lspconfig").setup({
 				ensure_installed = {
 					"lua_ls",
-					"tsserver",
+					"ts_ls",
 					"pyright",
 					"angularls",
 					"cssls",
@@ -47,25 +46,27 @@ return {
 	{
 		"neovim/nvim-lspconfig",
 		config = function()
-			local lspconfig = require("lspconfig")
 			local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
-			lspconfig.lua_ls.setup({ capabilities = capabilities })
-			lspconfig.tsserver.setup({
-				capabilities = capabilities,
+			-- Apply capabilities to every server by default
+			vim.lsp.config("*", { capabilities = capabilities })
+
+			vim.lsp.config("lua_ls", {})
+
+			vim.lsp.config("ts_ls", {
 				on_attach = function(client)
-					-- Disable tsserver's formatting in favor of null-ls
+					-- Disable ts_ls's formatting in favor of null-ls
 					client.server_capabilities.document_formatting = false
 				end,
 				settings = {
 					javascript = {
 						format = {
-							enable = false, -- Disable in-built tsserver formatting
+							enable = false, -- Disable in-built ts_ls formatting
 						},
 					},
 					typescript = {
 						format = {
-							enable = false, -- Disable in-built tsserver formatting
+							enable = false, -- Disable in-built ts_ls formatting
 						},
 					},
 				},
@@ -79,14 +80,13 @@ return {
 				},
 			})
 
-			lspconfig.angularls.setup({ capabilities = capabilities })
-			lspconfig.cssls.setup({ capabilities = capabilities })
-			-- lspconfig.eslint.setup({ capabilities = capabilities })
-			lspconfig.html.setup({ capabilities = capabilities })
-			lspconfig.prismals.setup({ capabilities = capabilities })
-			lspconfig.tailwindcss.setup({ capabilities = capabilities })
-			lspconfig.pyright.setup({
-				capabilities = capabilities,
+			vim.lsp.config("angularls", {})
+			vim.lsp.config("cssls", {})
+			-- vim.lsp.config("eslint", {})
+			vim.lsp.config("html", {})
+			vim.lsp.config("prismals", {})
+			vim.lsp.config("tailwindcss", {})
+			vim.lsp.config("pyright", {
 				-- before_init = function(params)
 				-- 	local venv = os.getenv("VIRTUAL_ENV") -- Get the venv path from the environment
 				-- 	if venv then
@@ -96,26 +96,36 @@ return {
 				-- 	end
 				-- end,
 			})
+			vim.lsp.config("jsonls", {})
+			vim.lsp.config("yamlls", {})
+			vim.lsp.config("bashls", {})
+			vim.lsp.config("gopls", {})
 
-			lspconfig.jsonls.setup({ capabilities = capabilities })
-			lspconfig.yamlls.setup({ capabilities = capabilities })
-			lspconfig.bashls.setup({ capabilities = capabilities })
-			lspconfig.gopls.setup({ capabilities = capabilities })
+			vim.lsp.enable({
+				"lua_ls",
+				"ts_ls",
+				"angularls",
+				"cssls",
+				-- "eslint",
+				"html",
+				"prismals",
+				"tailwindcss",
+				"pyright",
+				"jsonls",
+				"yamlls",
+				"bashls",
+				"gopls",
+			})
 
 			-- Hover information
 			vim.keymap.set("n", "<leader>gh", vim.lsp.buf.hover, {})
-
 			-- Go to definition
 			vim.keymap.set("n", "<leader>gd", vim.lsp.buf.definition, {})
-
 			-- Go to declaration
 			vim.keymap.set("n", "<leader>gD", vim.lsp.buf.declaration, {})
-
 			-- Autocomplete code action
 			vim.keymap.set({ "n", "v" }, "<leader>ga", vim.lsp.buf.code_action, {})
-
 			vim.keymap.set({ "n", "i" }, "<C-Space>", "<cmd>vim.lsp.buf.completion()<CR>")
-
 			-- Set popup to rounded borders
 			local open_floating_preview = vim.lsp.util.open_floating_preview
 			function vim.lsp.util.open_floating_preview(contents, syntax, opts, ...)

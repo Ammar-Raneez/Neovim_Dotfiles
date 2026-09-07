@@ -1,6 +1,15 @@
 return {
   "folke/trouble.nvim",
-  opts = {},
+  opts = {
+    auto_close = true,
+    focus = true,
+    follow = true,
+    win = { border = "rounded" },
+    modes = {
+      diagnostics = { auto_close = true },
+      symbols = { auto_close = true },
+    },
+  },
   cmd = "Trouble",
   keys = {
     {

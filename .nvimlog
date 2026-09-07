@@ -1,0 +1,2 @@
+WRN 2026-09-07T19:16:07.410 ?.93404    server_start:193: Failed to start server: operation not permitted: /var/folders/m9/46pn95d5349fr6fqp20hvz7m0000gn/T/nvim.ammarraneez/nCmfGX/nvim.93404.0
+WRN 2026-09-07T19:30:18.006 ?.17451    server_start:193: Failed to start server: operation not permitted: /var/folders/m9/46pn95d5349fr6fqp20hvz7m0000gn/T/nvim.ammarraneez/GuGOrZ/nvim.17451.0
