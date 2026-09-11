@@ -25,15 +25,12 @@ end
 
 -- Configure diagnostics to update in insert mode
 vim.diagnostic.config({
-  virtual_text = true,
+  virtual_text = { prefix = "●", spacing = 4 },
   signs = true,
   underline = true,
-  update_in_insert = true,
+  update_in_insert = false,
   severity_sort = true,
 })
-
--- Show diagnostics in a floating window when hovering
-vim.cmd([[autocmd CursorHold * lua vim.diagnostic.open_float(nil, { focusable = false })]])
 
 -- Keymaps for navigating diagnostics
 vim.keymap.set("n", "<leader>dn", vim.diagnostic.goto_next, { desc = "Next diagnostic" })

@@ -13,7 +13,39 @@ return {
 					path_display = { "smart" },
 					layout_strategy = "flex",
 					layout_config = { horizontal = { preview_width = 0.55 } },
-					file_ignore_patterns = { "node_modules", ".git/" },
+					-- Only .git internals are hidden. node_modules and other
+					-- git-ignored paths stay searchable, matching nvim-tree's
+					-- filters.git_ignored = false.
+					file_ignore_patterns = { "%.git[\\/]" },
+					-- live_grep / grep_string: include dotfiles and ignored files,
+					-- but never descend into .git.
+					vimgrep_arguments = {
+						"rg",
+						"--color=never",
+						"--no-heading",
+						"--with-filename",
+						"--line-number",
+						"--column",
+						"--smart-case",
+						"--hidden",
+						"--no-ignore",
+						"--glob=!.git/",
+					},
+				},
+				pickers = {
+					-- find_files: same reach as live_grep. Excluding .git via a
+					-- glob keeps rg from enumerating it at all, rather than
+					-- listing then discarding it via file_ignore_patterns.
+					find_files = {
+						find_command = {
+							"rg",
+							"--files",
+							"--color=never",
+							"--hidden",
+							"--no-ignore",
+							"--glob=!.git/",
+						},
+					},
 				},
 			})
 			vim.keymap.set("n", "<C-l>", tel_builtin.find_files, {})

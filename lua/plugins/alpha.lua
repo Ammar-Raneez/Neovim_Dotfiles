@@ -7,12 +7,12 @@ return {
 
     dashboard.section.header.val = {
       "",
-      "   ███╗   ██╗██╗   ██╗██╗███╗   ███╗",
-      "   ████╗  ██║██║   ██║██║████╗ ████║",
-      "   ██╔██╗ ██║██║   ██║██║██╔████╔██║",
-      "   ██║╚██╗██║╚██╗ ██╔╝██║██║╚██╔╝██║",
-      "   ██║ ╚████║ ╚████╔╝ ██║██║ ╚═╝ ██║",
-      "   ╚═╝  ╚═══╝  ╚═══╝  ╚═╝╚═╝     ╚═╝",
+      " ██████╗ ███████╗████████╗   ███████╗██╗  ██╗██╗████████╗   ██████╗  ██████╗ ███╗   ██╗███████╗",
+      "██╔════╝ ██╔════╝╚══██╔══╝   ██╔════╝██║  ██║██║╚══██╔══╝   ██╔══██╗██╔═══██╗████╗  ██║██╔════╝",
+      "██║  ███╗█████╗     ██║      ███████╗███████║██║   ██║      ██║  ██║██║   ██║██╔██╗ ██║█████╗  ",
+      "██║   ██║██╔══╝     ██║      ╚════██║██╔══██║██║   ██║      ██║  ██║██║   ██║██║╚██╗██║██╔══╝  ",
+      "╚██████╔╝███████╗   ██║      ███████║██║  ██║██║   ██║      ██████╔╝╚██████╔╝██║ ╚████║███████╗",
+      " ╚═════╝ ╚══════╝   ╚═╝      ╚══════╝╚═╝  ╚═╝╚═╝   ╚═╝      ╚═════╝  ╚═════╝ ╚═╝  ╚═══╝╚══════╝",
       "",
     }
 
@@ -25,12 +25,25 @@ return {
       dashboard.button("q", "󰈆  Quit", "<cmd>qa<cr>"),
     }
 
-    dashboard.section.footer.val = "Duskfox • ready when you are"
     dashboard.section.header.opts.hl = "AlphaHeader"
     dashboard.section.footer.opts.hl = "AlphaFooter"
 
-    vim.api.nvim_set_hl(0, "AlphaHeader", { fg = "#c4a7e7" })
-    vim.api.nvim_set_hl(0, "AlphaFooter", { fg = "#6e6a86", italic = true })
+    -- Loading a colorscheme clears custom highlights, so these are re-derived
+    -- on every switch instead of being hardcoded to one theme's palette.
+    -- Title tracks the accent in both duskfox and dawnfox at ~6.5:1 contrast.
+    local function restyle()
+      vim.api.nvim_set_hl(0, "AlphaHeader", { link = "Title" })
+      local comment = vim.api.nvim_get_hl(0, { name = "Comment", link = false })
+      vim.api.nvim_set_hl(0, "AlphaFooter", { fg = comment.fg, italic = true })
+      dashboard.section.footer.val = (vim.g.colors_name or "nvim") .. " • ready when you are"
+      pcall(vim.cmd.AlphaRedraw)
+    end
+
+    restyle()
+    vim.api.nvim_create_autocmd("ColorScheme", {
+      group = vim.api.nvim_create_augroup("AlphaTheme", { clear = true }),
+      callback = restyle,
+    })
 
     alpha.setup(dashboard.config)
   end,

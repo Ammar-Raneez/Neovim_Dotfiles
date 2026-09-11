@@ -1,7 +1,11 @@
 return {
   "EdenEast/nightfox.nvim",
   name = "nightfox",
+  lazy = false,
+  priority = 1000,
   config = function()
-    vim.cmd.colorscheme("duskfox")
+    -- The active variant (duskfox / dawnfox) is chosen by lua/theme.lua
+    -- based on the macOS system appearance.
+    require("theme").setup()
   end,
 }

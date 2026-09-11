@@ -21,3 +21,13 @@ vim.opt.splitright = true
 vim.opt.fillchars = { eob = " " }
 vim.opt.list = true
 vim.opt.listchars = { tab = "  ", trail = "·", nbsp = "␣" }
+
+-- Rounded borders on every floating window (LSP hover, diagnostics, ...).
+-- Neovim 0.11 applies this globally, so plugins no longer each need their own.
+vim.opt.winborder = "rounded"
+
+-- Subtle translucency on the completion menu.
+vim.opt.pumblend = 10
+
+-- Scroll wrapped lines by screen line instead of jumping a whole buffer line.
+vim.opt.smoothscroll = true
